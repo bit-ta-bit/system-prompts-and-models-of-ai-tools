@@ -18,6 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'card';
 
+                // Add thumbnail if it exists
+                if (entry.thumbnail) {
+                    const thumbnail = document.createElement('img');
+                    thumbnail.className = 'card-thumbnail';
+                    thumbnail.src = entry.thumbnail;
+                    thumbnail.alt = entry.title;
+                    card.appendChild(thumbnail);
+                }
+
+                // Create a container for the text content
+                const content = document.createElement('div');
+                content.className = 'card-content';
+
                 const source = document.createElement('p');
                 source.className = 'source';
                 source.textContent = entry.source;
@@ -37,9 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 published.className = 'published';
                 published.textContent = `Published: ${entry.published}`;
 
-                card.appendChild(source);
-                card.appendChild(title);
-                card.appendChild(published);
+                content.appendChild(source);
+                content.appendChild(title);
+                content.appendChild(published);
+
+                card.appendChild(content);
 
                 feedContainer.appendChild(card);
             });

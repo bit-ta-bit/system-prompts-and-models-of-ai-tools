@@ -31,10 +31,16 @@ def fetch_feeds():
             source_title = feed.feed.title
 
             for entry in feed.entries:
+                # Safely get the thumbnail URL
+                thumbnail_url = None
+                if 'media_thumbnail' in entry and entry.media_thumbnail:
+                    thumbnail_url = entry.media_thumbnail[0].get('url')
+
                 all_entries.append({
                     'source': source_title,
                     'title': entry.title,
                     'link': entry.link,
+                    'thumbnail': thumbnail_url,
                     # published_parsed is a time.struct_time object
                     'published_parsed': entry.get('published_parsed', time.gmtime()),
                 })
@@ -61,6 +67,7 @@ if __name__ == "__main__":
             print(f"  Title: {entry['title']}")
             print(f"  Link: {entry['link']}")
             print(f"  Published: {published_str}")
+            print(f"  Thumbnail: {entry['thumbnail']}")
             print("-" * 20)
     else:
         print("No entries found.")
